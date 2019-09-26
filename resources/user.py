@@ -19,3 +19,25 @@ class UserRegister(Resource):
                 return {'message':'User has been created successfully.'}, 200
             except:
                 return {'message':'New user was created successfully.'}, 500
+class UserResource(Resource):
+
+    @classmethod
+    @jwt_required()
+    def get(cls,user_id):
+        user = User.find_by_id(user_id)
+        if not user:
+            return {'message': 'User not found.'}, 404
+        else:
+            return user.json()
+
+    @classmethod
+    @jwt_required()
+    def del(cls,user_id):
+        user = User.find_by_id(user_id)
+        if not user:
+            return {'message': 'User not found.'}, 404
+        else:
+            user.active=0
+            user.save_to_db()
+            return {'message': 'User deactivated.'}, 200
+

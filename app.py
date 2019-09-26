@@ -16,3 +16,7 @@ app.config.from_pyfile('config.py')
 app.secret_key = secret_key
 jwt = JWT(app, authenticate,identity)
 api = get_endpoints(app)
+
+if __name__ == '__main__':
+    from config.db import db
+    app.run(port=5000, debug=True)
