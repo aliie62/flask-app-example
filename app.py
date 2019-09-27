@@ -6,15 +6,15 @@ Created on Tue Sep 10 14:48:19 2019
 """
 
 from flask import Flask
-from flask_jwt import JWT
+from flask_jwt_extended import JWTManager
 from resources.endpoints import get_endpoints
-from config.security import secret_key, authenticate,identity
+from config.security import secret_key
 
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-app.secret_key = secret_key
-jwt = JWT(app, authenticate,identity)
+app.secret_key = 'unknown'
+jwt = JWTManager(app)
 api = get_endpoints(app)
 
 if __name__ == '__main__':

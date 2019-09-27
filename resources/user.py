@@ -1,15 +1,15 @@
 from flask_restful import Resource,reqparse
-from flask_jwt import jwt_required
+from flask_jwt_extended import create_access_token, create_refresh_token
 from models.user import User
 
-class UserRegister(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('username', type=str, required=True)
-    parser.add_argument('password',type=str,required=True)
+_user_parser = reqparse.RequestParser()
+_user_parser.add_argument('username', type=str, required=True)
+_user_parser.add_argument('password',type=str,required=True)
 
+class UserRegister(Resource):
     def post(self):
         try:
-            params = UserRegister.parser.parse_args()
+            params = _user_parser.parse_args()
             user = User(None,**params)
         except:
             return {'message':'The passed data is not in expected format.'}, 400
@@ -20,9 +20,7 @@ class UserRegister(Resource):
             except:
                 return {'message':'New user was created successfully.'}, 500
 class UserResource(Resource):
-
     @classmethod
-    @jwt_required()
     def get(cls,user_id):
         user = User.find_by_id(user_id)
         if not user:
@@ -31,7 +29,6 @@ class UserResource(Resource):
             return user.json(), 201
 
     @classmethod
-    @jwt_required()
     def delete(cls,user_id):
         user = User.find_by_id(user_id)
         if not user:
@@ -41,3 +38,19 @@ class UserResource(Resource):
             user.save_to_db()
             return {'message': 'User deactivated.'}, 200
 
+class UserLogin(Resource):
+    @classmethod
+    def post(cls):
+        params = _user_parser.parse_args()
+        user = User(None,**params)
+        db_user = User.find_by_username(user.username)
+        if  db_user or db_user.password == user.password:
+            access_token = create_access_token(identity=db_user.id, fresh=True)
+            refresh_token = create_refresh_token(db_user.id)
+            return {
+                'access_token': access_token,
+                'refresh_token': refresh_token
+                }, 200
+        else:
+            return {'message':'Invalid credentials'}, 401
+            

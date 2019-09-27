@@ -6,7 +6,7 @@ Created on Tue Sep 10 14:52:38 2019
 """
 
 from flask_restful import Resource,reqparse
-from flask_jwt import jwt_required
+from flask_jwt_extended import jwt_required
 from models.item import Item
 
 
@@ -18,12 +18,12 @@ class ItemResource(Resource):
     parser_name = reqparse.RequestParser()
     parser_name.add_argument('name', type=str, required=True)
 
-    @jwt_required()
+    @jwt_required
     def get(self, name):
         item = Item.find_by_name(name)
         return item.json() , 200 if item else 404
 
-    @jwt_required()
+    @jwt_required
     def post(self):
         try:
             params = ItemResource.parser.parse_args()
@@ -41,7 +41,7 @@ class ItemResource(Resource):
             except:
                 return {'message':'An error occurred in inserting the item.'}, 500
 
-    @jwt_required()
+    @jwt_required
     def put(self):
         try:
             params = ItemResource.parser.parse_args()
@@ -60,7 +60,7 @@ class ItemResource(Resource):
             except:
                 return {'message':'An error occurred in updating the item.'}, 500
 
-    @jwt_required()
+    @jwt_required
     def delete(self):
         try:
             params = ItemResource.parser_name.parse_args()
@@ -75,7 +75,7 @@ class ItemResource(Resource):
                 return {'message':'An error occurred in deleting data.'}, 500
 
 class ItemListResource(Resource):
-    @jwt_required()
+    @jwt_required
     def get(self):
         try:
             items = Item.find_all()
