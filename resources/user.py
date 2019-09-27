@@ -28,11 +28,11 @@ class UserResource(Resource):
         if not user:
             return {'message': 'User not found.'}, 404
         else:
-            return user.json()
+            return user.json(), 201
 
     @classmethod
     @jwt_required()
-    def del(cls,user_id):
+    def delete(cls,user_id):
         user = User.find_by_id(user_id)
         if not user:
             return {'message': 'User not found.'}, 404

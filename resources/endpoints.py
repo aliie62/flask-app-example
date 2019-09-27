@@ -17,7 +17,7 @@ def get_endpoints(app):
     api.add_resource(ItemListResource,'/items')
     api.add_resource(ItemResource,'/item','/item/<string:name>')
     api.add_resource(UserRegister,'/register')
-    api.add_resource(UserResource,'/user/<string:user_id>')
+    api.add_resource(UserResource,'/user/<int:user_id>')
     api.add_resource(StoreResource, '/store','/store/<string:name>')
     api.add_resource(StoreListResource,'/stores')
     return api
