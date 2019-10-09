@@ -8,18 +8,20 @@ Created on Tue Sep 10 14:48:19 2019
 from flask import Flask
 from flask_jwt_extended import JWTManager
 from resources.endpoints import get_endpoints
-from config.security import secret_key
 from models.user import User
 import os
 import json
 
-
 app = Flask(__name__)
-app.config.from_pyfile('config.py')
+app.config.from_pyfile('config/config.py')
 app.secret_key = os.environ.get('Flask_Secret_Key')
 api = get_endpoints(app)
 jwt = JWTManager(app)
 
+@jwt.token_in_blacklist_loader
+def is_blacklisted(decrypted_token):
+    return User.find_locked(decrypted_token['identity'])
+        
 @jwt.user_claims_loader
 def add_claims_to_jwt(identity):
     if identity == 1:

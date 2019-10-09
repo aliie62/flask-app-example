@@ -6,12 +6,14 @@ class User(db.Model):
     username = db.Column(db.String(80))
     password = db.Column(db.String(80))
     active = db.Column(db.Integer)
+    locked = db.Column(db.Integer)
 
-    def __init__(self,_id,username,password,active = 1):
+    def __init__(self,_id,username,password,active = 1, locked = 0):
         self.id = _id
         self.username = username
         self.password = password
         self.active = active
+        self.locked = locked
     
     def json(self):
         return {
@@ -27,6 +29,10 @@ class User(db.Model):
     @classmethod
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id,active=1).first()
+
+    @classmethod
+    def find_locked(cls,id):
+        return cls.query.filter_by(id=id,locked=1).first()
 
     def save_to_db(self):
         db.session.add(self)

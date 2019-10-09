@@ -3,7 +3,9 @@ from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
     jwt_refresh_token_required,
-    get_jwt_identity)
+    get_jwt_identity,
+    fresh_jwt_required,
+    jwt_required)
 from models.user import User
 
 _user_parser = reqparse.RequestParser()
@@ -26,6 +28,7 @@ class UserRegister(Resource):
 
 class UserResource(Resource):
     @classmethod
+    @fresh_jwt_required
     def get(cls,user_id):
         user = User.find_by_id(user_id)
         if not user:
@@ -34,6 +37,7 @@ class UserResource(Resource):
             return user.json(), 201
 
     @classmethod
+    @fresh_jwt_required
     def delete(cls,user_id):
         user = User.find_by_id(user_id)
         if not user:
@@ -58,6 +62,11 @@ class UserLogin(Resource):
                 }, 200
         else:
             return {'message':'Invalid credentials'}, 401
+
+class UserLogout(Resource):
+    @jwt_required
+    def post(self):
+        pass
 
 class TokenReferesh(Resource):
     @jwt_refresh_token_required
