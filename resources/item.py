@@ -6,7 +6,12 @@ Created on Tue Sep 10 14:52:38 2019
 """
 
 from flask_restful import Resource,reqparse
-from flask_jwt_extended import jwt_required, get_jwt_claims
+from flask_jwt_extended import (
+    jwt_required,
+    get_jwt_claims,
+    jwt_optional,
+    get_jwt_identity,
+    fresh_jwt_required)
 from models.item import Item
 
 
@@ -26,7 +31,7 @@ class ItemResource(Resource):
         else:
             return {'message':'Item not found.'} , 404
 
-    @jwt_required
+    @fresh_jwt_required
     def post(self):
         try:
             params = ItemResource.parser.parse_args()
@@ -81,11 +86,17 @@ class ItemResource(Resource):
                 return {'message':'An error occurred in deleting data.'}, 500
 
 class ItemListResource(Resource):
-    @jwt_required
+    @jwt_optional
     def get(self):
         try:
+            user_id = get_jwt_identity()
             items = Item.find_all()
             items_dic = [item.json() for item in items]
-            return {'items':items_dic}, 200
+            if user_id:
+                return {'items':items_dic}, 200
+            else:
+                return {'items':[item['name'] for item in items_dic],
+                'message': 'Further information is available after login.'
+                }, 200
         except:
             return {'message':'An error occurred reading data.'}, 500
