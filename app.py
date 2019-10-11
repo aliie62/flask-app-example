@@ -9,6 +9,7 @@ from flask import Flask
 from flask_jwt_extended import JWTManager
 from resources.endpoints import get_endpoints
 from models.user import User
+from resources.user import loggedOutList
 import os
 import json
 
@@ -19,12 +20,13 @@ api = get_endpoints(app)
 jwt = JWTManager(app)
 
 @jwt.token_in_blacklist_loader
-def is_blacklisted(decrypted_token):
-    return User.find_locked(decrypted_token['identity'])
-        
+def user_logout(decrypted_token):
+    return decrypted_token['jti'] in loggedOutList
+      
 @jwt.user_claims_loader
 def add_claims_to_jwt(identity):
-    if identity == 1:
+    user = User.find_by_id(identity)
+    if user.userGroup == 2:
         return {'is_admin':True}
     return {'is_admin': False}
 

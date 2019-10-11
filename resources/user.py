@@ -5,12 +5,15 @@ from flask_jwt_extended import (
     jwt_refresh_token_required,
     get_jwt_identity,
     fresh_jwt_required,
-    jwt_required)
+    jwt_required,
+    get_raw_jwt)
 from models.user import User
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument('username', type=str, required=True)
 _user_parser.add_argument('password',type=str,required=True)
+
+loggedOutList = set()
 
 class UserRegister(Resource):
     def post(self):
@@ -53,20 +56,28 @@ class UserLogin(Resource):
         params = _user_parser.parse_args()
         user = User(None,**params)
         db_user = User.find_by_username(user.username)
-        if  db_user or db_user.password == user.password:
-            access_token = create_access_token(identity=db_user.id, fresh=True)
-            refresh_token = create_refresh_token(db_user.id)
-            return {
-                'access_token': access_token,
-                'refresh_token': refresh_token
-                }, 200
+        if  db_user and db_user.password == user.password:
+            if db_user.locked == 0:
+                access_token = create_access_token(identity=db_user.id, fresh=True)
+                refresh_token = create_refresh_token(db_user.id)
+                return {
+                    'access_token': access_token,
+                    'refresh_token': refresh_token
+                    }, 200
+            else:
+                    return {
+                    'message': 'This user is locked. Please contact system administrator.'
+                    }, 401
         else:
             return {'message':'Invalid credentials'}, 401
 
 class UserLogout(Resource):
     @jwt_required
     def post(self):
-        pass
+        jti = get_raw_jwt()['jti']
+        loggedOutList.add(jti)
+        return {'message': 'Successfully logged out.'}, 200
+
 
 class TokenReferesh(Resource):
     @jwt_refresh_token_required
