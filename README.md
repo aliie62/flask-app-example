@@ -28,6 +28,9 @@ Contributions are what make the open source community such an amazing place to b
 # License
 Distributed under the *MIT License*. See `LICENSE` for more information.
 
+# Changelog
+Changelog can be found here: [CHANGELOG](CHANGELOG.md)
+
 # Contact
 Ali Hosseini on https://twitter.com/a1iie62 or aliie62@yahoo.com
 
