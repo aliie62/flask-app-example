@@ -2,11 +2,9 @@ from flask_restful import Resource,reqparse
 from flask_jwt_extended import (
     create_access_token,
     create_refresh_token,
-    jwt_refresh_token_required,
     get_jwt_identity,
-    fresh_jwt_required,
     jwt_required,
-    get_raw_jwt)
+    get_jwt)
 from models.user import User
 
 _user_parser = reqparse.RequestParser()
@@ -22,16 +20,16 @@ class UserRegister(Resource):
             user = User(None,**params)
         except:
             return {'message':'The passed data is not in expected format.'}, 400
-        else:
-            try:
-                user.save_to_db()
-                return {'message':'User has been created successfully.'}, 200
-            except:
-                return {'message':'New user was created successfully.'}, 500
+    
+        try:
+            user.save_to_db()
+        except:
+            return {'message':'A server error was occured.'}, 500
+        return {'message':'User has been created successfully.'}, 200
 
 class UserResource(Resource):
     @classmethod
-    @fresh_jwt_required
+    @jwt_required(fresh=True)
     def get(cls,user_id):
         user = User.find_by_id(user_id)
         if not user:
@@ -40,7 +38,7 @@ class UserResource(Resource):
             return user.json(), 201
 
     @classmethod
-    @fresh_jwt_required
+    @jwt_required(fresh=True)
     def delete(cls,user_id):
         user = User.find_by_id(user_id)
         if not user:
@@ -72,15 +70,15 @@ class UserLogin(Resource):
             return {'message':'Invalid credentials'}, 401
 
 class UserLogout(Resource):
-    @jwt_required
+    @jwt_required()
     def post(self):
-        jti = get_raw_jwt()['jti']
+        jti = get_jwt()['jti']
         loggedOutList.add(jti)
         return {'message': 'Successfully logged out.'}, 200
 
 
 class TokenReferesh(Resource):
-    @jwt_refresh_token_required
+    @jwt_required(refresh=True)
     def post(self):
         user_id = get_jwt_identity()
         new_token = create_access_token(identity=user_id, fresh=False)

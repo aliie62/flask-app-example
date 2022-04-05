@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 10 14:52:38 2019
-
-@author: hosseal
-"""
 
 from flask_restful import Resource,reqparse
 from flask_jwt_extended import jwt_required
@@ -14,12 +9,14 @@ class StoreResource(Resource):
     parser = reqparse.RequestParser()
     parser.add_argument('name', type=str, required=True)
 
-    @jwt_required
+    @jwt_required()
     def get(self, name):
         store = Store.find_by_name(name)
-        return store.json() , 200 if Store else 404
+        if store:
+            return store.json()
+        return {'message':f'Store <{name}> was not found.'}, 404
 
-    @jwt_required
+    @jwt_required()
     def post(self):
         try:
             params = StoreResource.parser.parse_args()
@@ -37,7 +34,7 @@ class StoreResource(Resource):
             except:
                 return {'message':'An error occurred in inserting the Store.'}, 500
 
-    @jwt_required
+    @jwt_required()
     def put(self, name):
         try:
             params = StoreResource.parser.parse_args()
@@ -56,7 +53,7 @@ class StoreResource(Resource):
             except:
                 return {'message':'An error occurred in allocating item to the store.'}, 500
 
-    @jwt_required
+    @jwt_required()
     def delete(self):
         try:
             params = StoreResource.parser.parse_args()
@@ -71,7 +68,7 @@ class StoreResource(Resource):
                 return {'message':'An error occurred in deleting data.'}, 500
 
 class StoreListResource(Resource):
-    @jwt_required
+    @jwt_required()
     def get(self):
         try:
             stores = Store.find_all()

@@ -37,10 +37,3 @@ class Item(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
-
-
-
-# class ItemSchema(ma):
-#     class Meta:
-#         model = Item
-#         sqla_session = db.session

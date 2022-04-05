@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 10 14:52:38 2019
-
-@author: hosseal
-"""
 
 from flask_restful import Resource,reqparse
 from flask_jwt_extended import (
     jwt_required,
-    get_jwt_claims,
-    jwt_optional,
-    get_jwt_identity,
-    fresh_jwt_required)
+    get_jwt,
+    get_jwt_identity)
 from models.item import Item
 
 
@@ -23,7 +16,7 @@ class ItemResource(Resource):
     parser_name = reqparse.RequestParser()
     parser_name.add_argument('name', type=str, required=True)
 
-    @jwt_required
+    @jwt_required()
     def get(self, name):
         item = Item.find_by_name(name)
         if item:
@@ -31,7 +24,7 @@ class ItemResource(Resource):
         else:
             return {'message':'Item not found.'} , 404
 
-    @fresh_jwt_required
+    @jwt_required(fresh=True)
     def post(self):
         try:
             params = ItemResource.parser.parse_args()
@@ -49,7 +42,7 @@ class ItemResource(Resource):
             except:
                 return {'message':'An error occurred in inserting the item.'}, 500
 
-    @jwt_required
+    @jwt_required()
     def put(self):
         try:
             params = ItemResource.parser.parse_args()
@@ -68,9 +61,9 @@ class ItemResource(Resource):
             except:
                 return {'message':'An error occurred in updating the item.'}, 500
 
-    @jwt_required
+    @jwt_required()
     def delete(self):
-        claims = get_jwt_claims()
+        claims = get_jwt()
         if not claims['is_admin']:
             return {'message': 'Admin priviledge required.'}, 401
         try:
@@ -86,7 +79,7 @@ class ItemResource(Resource):
                 return {'message':'An error occurred in deleting data.'}, 500
 
 class ItemListResource(Resource):
-    @jwt_optional
+    @jwt_required(optional=True)
     def get(self):
         try:
             user_id = get_jwt_identity()

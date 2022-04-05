@@ -46,3 +46,7 @@ class User(db.Model):
     @classmethod
     def find_by_id(cls,id):
         return cls.query.filter_by(id=id,active=1).first()
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()

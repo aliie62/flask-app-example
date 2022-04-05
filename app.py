@@ -2,7 +2,7 @@
 """
 Created on Tue Sep 10 14:48:19 2019
 
-@author: hosseal
+@author: Ali Hosseini
 """
 
 from flask import Flask
@@ -12,18 +12,20 @@ from models.user import User
 from resources.user import loggedOutList
 import os
 import json
+from config.db import db
 
 app = Flask(__name__)
 app.config.from_pyfile('config/config.py')
 app.secret_key = os.environ.get('Flask_Secret_Key')
 api = get_endpoints(app)
 jwt = JWTManager(app)
+db.init_app(app)
 
-@jwt.token_in_blacklist_loader
-def user_logout(decrypted_token):
-    return decrypted_token['jti'] in loggedOutList
+@jwt.token_in_blocklist_loader
+def user_logout(jwt_header, jwt_payload):
+    return jwt_payload['jti'] in loggedOutList
       
-@jwt.user_claims_loader
+@jwt.additional_claims_loader
 def add_claims_to_jwt(identity):
     user = User.find_by_id(identity)
     if user.userGroup == 2:
@@ -70,6 +72,4 @@ def create_tables():
     db.create_all()
 
 if __name__ == '__main__':
-    from config.db import db
-    db.init_app(app)
     app.run(port=5000, debug=True)
