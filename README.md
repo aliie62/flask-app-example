@@ -11,10 +11,10 @@ Download or clone the repository in your machine. In the *Command Prompt* in Win
 In the Command Prompt/bash run below command:
 
 ```
-python.exe run.py
+python.exe app.py
 ```
 
-This will run the app on `http://localhost:5000`.
+This will run the app on `http://127.0.0.1:5000`.
 
 # Contributing
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are greatly appreciated.
