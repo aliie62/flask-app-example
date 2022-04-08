@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 10 14:48:19 2019
-
-@author: Ali Hosseini
-"""
 
 from flask import Flask
 from flask_jwt_extended import JWTManager

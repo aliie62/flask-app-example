@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Sep 10 14:58:30 2019
-
-@author: hosseal
-"""
 
 from flask_restful import Api
 from resources.item import ItemResource, ItemListResource
