@@ -40,8 +40,8 @@ class User(db.Model):
         return cls.query.filter_by(username=username, active=1).first()
 
     @classmethod
-    def find_by_id(cls, id):
-        return cls.query.filter_by(id=id, active=1).first()
+    def find_by_id(cls, user_id):
+        return cls.query.filter_by(id=user_id, active=1).first()
 
     def save_to_db(self):
         db.session.add(self)

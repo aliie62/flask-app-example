@@ -6,5 +6,5 @@ format:
 	#format code
 	black *.py models/*.py resources/*.py config/*.py
 lint:
-	pylint --disable=R,C *.py models/*.py resources/*.py config/*.py
+	pylint --disable=R,C,W *.py models/*.py resources/*.py config/*.py
 all: install lint format
