@@ -1,4 +1,4 @@
-https://github.com/aliie62/flask-app-example/actions/workflows/build.yml/badge.svg
+![Build](https://github.com/aliie62/flask-app-example/actions/workflows/build.yml/badge.svg)
 
 # Store Inventory API
 
