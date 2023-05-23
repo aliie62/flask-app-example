@@ -1,6 +1,8 @@
+https://github.com/aliie62/flask-app-example/actions/workflows/build/badge.svg
+
 # Store Inventory API
 
-This is a sample flask API project with Flask-RESFful, Flask-JWT-Extended, and Flask-SQLAlchemy.
+This is a sample Flask API project with Flask-RESFful, Flask-JWT-Extended, and Flask-SQLAlchemy.
 
 # Prerequisities
 
