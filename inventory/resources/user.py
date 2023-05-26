@@ -7,8 +7,8 @@ from flask_jwt_extended import (
     jwt_required,
     get_jwt,
 )
-from models.user import User
-from config.db import jwt_redis_blocklist
+from inventory.models.user import User
+from inventory.db import jwt_redis_blocklist
 
 _user_parser = reqparse.RequestParser()
 _user_parser.add_argument("username", type=str, required=True)
@@ -78,7 +78,7 @@ class UserLogout(Resource):
     @jwt_required()
     def post(self):
         jti = get_jwt()["jti"]
-        jwt_redis_blocklist.set(jti, "", timedelta(seconds=10))
+        jwt_redis_blocklist.set(jti, "", timedelta(seconds=600))
         return {"message": "Successfully logged out."}, 200
 
 

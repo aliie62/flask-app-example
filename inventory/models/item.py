@@ -1,4 +1,4 @@
-from config.db import db
+from inventory.db import db
 
 inventory = db.Table(
     "inventory",

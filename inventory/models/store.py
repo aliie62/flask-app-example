@@ -1,4 +1,4 @@
-from config.db import db
+from inventory.db import db
 
 
 class Store(db.Model):

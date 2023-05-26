@@ -2,9 +2,11 @@ install:
 	#install commands
 	python -m pip install --upgrade pip &&\
     pip install -r requirements.txt
+lint:
+	pylint --disable=R,C,W inventory/
+test:
+	pytest -vv --cov=inventory
 format:
 	#format code
-	black *.py models/*.py resources/*.py config/*.py
-lint:
-	pylint --disable=R,C,W *.py models/*.py resources/*.py config/*.py
-all: install lint format
+	black inventory/
+all: install lint test format

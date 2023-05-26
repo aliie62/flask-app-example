@@ -1,4 +1,4 @@
-from config.db import db
+from inventory.db import db
 
 
 class User(db.Model):
@@ -33,7 +33,7 @@ class User(db.Model):
         self.locked = locked
 
     def json(self):
-        return {"id": self.id, "usrename": self.username, "active": self.active}
+        return {"id": self.id, "username": self.username, "active": self.active}
 
     @classmethod
     def find_by_username(cls, username):

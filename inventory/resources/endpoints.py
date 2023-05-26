@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from flask_restful import Api
-from resources.item import ItemResource, ItemListResource
-from resources.user import (
+from inventory.resources.item import ItemResource, ItemListResource
+from inventory.resources.user import (
     UserResource,
     UserRegister,
     UserLogin,
     UserLogout,
     TokenReferesh,
 )
-from resources.store import StoreListResource, StoreResource
+from inventory.resources.store import StoreListResource, StoreResource
 
 
 # Define app end points
