@@ -21,7 +21,8 @@ jobs:
         make lint
     - name: Test with pytest
       run: |
-        ls -la
+        ls ../../* -la
+        echo $PYTHONPATH
         make test
     - name: Format code
       run: |
