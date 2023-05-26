@@ -21,6 +21,7 @@ jobs:
         make lint
     - name: Test with pytest
       run: |
+        export PYTHONPATH="$PYTHONPATH:$PWD"
         make test
     - name: Format code
       run: |
