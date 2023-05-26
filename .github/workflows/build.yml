@@ -21,7 +21,6 @@ jobs:
         make lint
     - name: Test with pytest
       run: |
-        echo "::set-env name=PYTHONPATH::home/runner/work/flask-app-example"
         make test
     - name: Format code
       run: |
