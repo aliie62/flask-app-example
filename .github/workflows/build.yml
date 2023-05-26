@@ -21,6 +21,7 @@ jobs:
         make lint
     - name: Test with pytest
       run: |
+        ls -la
         make test
     - name: Format code
       run: |
