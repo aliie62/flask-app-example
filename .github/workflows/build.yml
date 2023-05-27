@@ -29,6 +29,9 @@ jobs:
     - name: Test with pytest
       run: |
         make test
+      env:
+        Flask_Secret_Key: ${{ secrets.Flask_Secret_Key }}
+        DATABASE_URI: ${{ env.DATABASE_URI }}
 
     - name: Test coverage report
       run: |
