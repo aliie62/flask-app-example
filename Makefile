@@ -2,7 +2,7 @@ install:
 	#install commands
 	python -m pip install --upgrade pip &&\
     pip install -r requirements.txt
-	pip install -e .
+	#pip install -e .
 lint:
 	pylint --disable=R,C,W inventory/
 test:
