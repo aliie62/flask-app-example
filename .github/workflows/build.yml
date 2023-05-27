@@ -26,12 +26,16 @@ jobs:
     - name: Lint with pylint
       run: |
         make lint
-    - name: set pythonpath
-      run: |
-        echo "PYTHONPATH=mlprepare" >> $GITHUB_ENV
     - name: Test with pytest
       run: |
         make test
+      env:
+        Flask_Secret_Key: ${{ secrets.Flask_Secret_Key }}
+        DATABASE_URI: ${{GITHUB_DATABASE_URI}}
+
+    - name: Test coverage report
+      run: |
+        make coverage_report
     - name: Format code
       run: |
         make format
