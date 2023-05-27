@@ -4,41 +4,39 @@ on: [push]
 
 jobs:
   build:
-    # env:
-    #     Flask_Secret_Key: ${{secrets.Flask_Secret_Key}}
-    #     DATABASE_URI: ${{GITHUB_ENV.DATABASE_URI}}
+    env:
+        Flask_Secret_Key: ${{secrets.Flask_Secret_Key}}
+        DATABASE_URI: ${{vars.DATABASE_URI}}
 
     runs-on: ubuntu-latest
 
     steps:
-    - name: check the env variables
-      run: env
-    # - uses: actions/checkout@v2
-    # - name: Set up Python 3.11
-    #   uses: actions/setup-python@v1
-    #   with:
-    #     python-version: 3.11
-    # - uses: actions/cache@v3
-    #   id: cache
-    #   with:
-    #     path: ~/.cache/pip
-    #     key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.*') }}
-    #     restore-keys: | 
-    #       ${{ runner.os }}-pip-
-    # - name: Install dependencies
-    #   run: |
-    #     make install
-    # - name: Lint with pylint
-    #   run: |
-    #     make lint
-    # - name: Test with pytest
-    #   run: |
-    #     make test
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.11
+    - uses: actions/cache@v3
+      id: cache
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.*') }}
+        restore-keys: | 
+          ${{ runner.os }}-pip-
+    - name: Install dependencies
+      run: |
+        make install
+    - name: Lint with pylint
+      run: |
+        make lint
+    - name: Test with pytest
+      run: |
+        make test
 
-    # - name: Test coverage report
-    #   run: |
-    #     make coverage_report
-    # - name: Format code
-    #   run: |
-    #     make format
+    - name: Test coverage report
+      run: |
+        make coverage_report
+    - name: Format code
+      run: |
+        make format
     
