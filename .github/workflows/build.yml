@@ -5,8 +5,8 @@ on: [push]
 jobs:
   build:
     env:
-        Flask_Secret_Key: ${{ secrets.Flask_Secret_Key }}
-        DATABASE_URI: ${{ github.DATABASE_URI }}
+        Flask_Secret_Key: ${{secrets.Flask_Secret_Key}}
+        DATABASE_URI: ${{env.DATABASE_URI}}
 
     runs-on: ubuntu-latest
 
