@@ -6,11 +6,9 @@ install:
 lint:
 	pylint --disable=R,C,W inventory/
 test:
-	# pytest --cov=inventory
 	coverage run -m pytest  -v -s
-coverage_report:
 	coverage report -m --include=inventory/*
-	coverage-badge -o coverage.svg
+	coverage-badge -o coverage.svg -f
 format:
 	#format code
 	black inventory/

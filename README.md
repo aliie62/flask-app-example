@@ -1,4 +1,4 @@
-![Build](https://github.com/aliie62/flask-app-example/actions/workflows/build.yml/badge.svg) ![Coverage](https://github.com/aliie62/flask-app-example/raw/gh-pages/badges/coverage.svg?raw=true)
+![Build](https://github.com/aliie62/flask-app-example/actions/workflows/build.yml/badge.svg)
 
 # Store Inventory API
 

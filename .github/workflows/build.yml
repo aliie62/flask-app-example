@@ -37,10 +37,6 @@ jobs:
     - name: Test with pytest
       run: |
         make test
-
-    - name: Test coverage report
-      run: |
-        make coverage_report
     - name: Format code
       run: |
         make format
