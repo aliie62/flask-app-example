@@ -30,4 +30,4 @@ def test_user_getbyid(client) -> None:
         access_token = create_access_token(identity=1, fresh=True)
         headers = {"Authorization": "Bearer {}".format(access_token)}
         response = client.get("/user/1", headers=headers)
-        assert response.json == {"id": 1, "username": "testuser1", "active": 1}
+        assert response.json == {"id": 1, "username": "ali", "active": 1}
