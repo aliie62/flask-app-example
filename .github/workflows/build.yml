@@ -28,10 +28,11 @@ jobs:
         make lint
     - name: Test with pytest
       run: |
+        echo 
         make test
       env:
         Flask_Secret_Key: ${{ secrets.Flask_Secret_Key }}
-        DATABASE_URI: ${GITHUB_DATABASE_URI}
+        DATABASE_URI: ${ github_DATABASE_URI }}
 
     - name: Test coverage report
       run: |
