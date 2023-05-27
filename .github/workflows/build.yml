@@ -6,7 +6,7 @@ jobs:
   build:
     env:
         Flask_Secret_Key: ${{secrets.Flask_Secret_Key}}
-        DATABASE_URI: ${{DATABASE_URI}}
+        DATABASE_URI: ${{GITHUB_ENV.DATABASE_URI}}
 
     runs-on: ubuntu-latest
 
