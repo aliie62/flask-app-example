@@ -2,14 +2,16 @@
 
 from flask import Flask
 from flask_jwt_extended import JWTManager
-from resources.endpoints import get_endpoints
-from models.user import User
 import os
 import json
-from config.db import db, jwt_redis_blocklist
+
+from inventory.resources.endpoints import get_endpoints
+from inventory.models.user import User
+from inventory.db import db, jwt_redis_blocklist
+
 
 app = Flask(__name__)
-app.config.from_pyfile("config/config.py")
+app.config.from_pyfile("config.py")
 app.secret_key = os.environ.get("Flask_Secret_Key")
 api = get_endpoints(app)
 jwt = JWTManager(app)
@@ -93,4 +95,4 @@ def revoked_token_callback(jwt_header, jwt_payload):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(port=5000, debug=True)
+    app.run(port=5000)
