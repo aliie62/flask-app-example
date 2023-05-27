@@ -7,12 +7,9 @@ jobs:
     env:
         Flask_Secret_Key: ${{secrets.Flask_Secret_Key}}
         DATABASE_URI: ${{vars.DATABASE_URI}}
+        redis-version: 6
 
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        redis-version: [4, 5, 6]
 
     steps:
     - uses: actions/checkout@v2
