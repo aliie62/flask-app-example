@@ -6,7 +6,7 @@ jobs:
   build:
     env:
         Flask_Secret_Key: ${{secrets.FLASK_SECRET_KEY}}
-        DATABASE_URI: ${{vars.SQLITE_URI}}
+        SQLITE_URI: ${{vars.SQLITE_URI}}
         REDIS_HOST: ${{vars.REDIS_HOST}}
         REDIS_PORT: ${{vars.REDIS_PORT}}
         redis-version: 6
