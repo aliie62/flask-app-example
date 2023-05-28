@@ -29,6 +29,6 @@ build: # Create the Docker container of the project named "Inventory"
 
 .PHONY: run
 run: # Create Docker network, and run Inventory and Redis server containers
-	docker network create my_ntwork
-	docker run --network=my_ntwork --name redis-stack-server -d redis/redis-stack-server 
-	docker run -p 127.0.0.1:8080:8080 -e SQLITE_URI -e REDIS_HOST -e REDIS_PORT -e FLASK_SECRET_KEY --network=my_ntwork --name inventory inventory
+	docker network create my_network
+	docker run --network=my_network --name redis-stack-server -d redis/redis-stack-server 
+	docker run -p 127.0.0.1:8080:8080 -e SQLITE_URI -e REDIS_HOST=redis-stack-server -e REDIS_PORT -e FLASK_SECRET_KEY --network=my_network --name inventory inventory
