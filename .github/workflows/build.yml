@@ -5,8 +5,10 @@ on: [push]
 jobs:
   build:
     env:
-        Flask_Secret_Key: ${{secrets.Flask_Secret_Key}}
-        DATABASE_URI: ${{vars.DATABASE_URI}}
+        Flask_Secret_Key: ${{secrets.FLASK_SECRET_KEY}}
+        DATABASE_URI: ${{vars.SQLITE_URI}}
+        REDIS_HOST: ${{vars.REDIS_HOST}}
+        REDIS_PORT: ${{vars.REDIS_PORT}}
         redis-version: 6
 
     runs-on: ubuntu-latest
@@ -40,4 +42,6 @@ jobs:
     - name: Format code
       run: |
         make format
-    
+    - name: Build container
+      run: |
+        make build

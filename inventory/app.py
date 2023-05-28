@@ -12,7 +12,7 @@ from inventory.db import db, jwt_redis_blocklist
 
 app = Flask(__name__)
 app.config.from_pyfile("config.py")
-app.secret_key = os.environ.get("Flask_Secret_Key")
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")
 api = get_endpoints(app)
 jwt = JWTManager(app)
 
@@ -95,4 +95,4 @@ def revoked_token_callback(jwt_header, jwt_payload):
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(port=5000)
+    app.run(host="0.0.0.0", port=8080)
