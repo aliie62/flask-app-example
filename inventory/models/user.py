@@ -1,4 +1,5 @@
 from inventory.db import db
+from typing import Dict
 
 
 class User(db.Model):
@@ -10,7 +11,15 @@ class User(db.Model):
     active = db.Column(db.Integer)
     locked = db.Column(db.Integer)
 
-    def __init__(self, _id, username, password, userGroup=1, active=1, locked=0):
+    def __init__(
+        self,
+        _id,
+        username: str,
+        password: str,
+        userGroup: int = 1,
+        active: int = 1,
+        locked: int = 0,
+    ) -> None:
         """
         Instance attributes:
         username
@@ -32,17 +41,17 @@ class User(db.Model):
         self.active = active
         self.locked = locked
 
-    def json(self):
+    def json(self) -> Dict:
         return {"id": self.id, "username": self.username, "active": self.active}
 
     @classmethod
-    def find_by_username(cls, username):
+    def find_by_username(cls, username: str) -> "User":
         return cls.query.filter_by(username=username, active=1).first()
 
     @classmethod
-    def find_by_id(cls, user_id):
+    def find_by_id(cls, user_id: int) -> "User":
         return cls.query.filter_by(id=user_id, active=1).first()
 
-    def save_to_db(self):
+    def save_to_db(self) -> None:
         db.session.add(self)
         db.session.commit()
